@@ -1,3 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    >
+<TextView 
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:text="This is a simple two button app. \r\n \r\n Tell your user what your app does here \r\n \r\n \r\n \r\n"
+    android:padding="10dp"
+    android:textColor="#FFFFFF"
+    />
+<Button
+ android:id="@+id/buttonStart"
+ android:layout_width="fill_parent"
+ android:layout_height="wrap_content"
+ android:text="Start"/>
+<Button
+ android:id="@+id/buttonStop"
+ android:layout_width="fill_parent"
+ android:layout_height="wrap_content"
+ android:text="Stop"/>
+</LinearLayout>
+
+<<MainActivity.java>>=
+package com.idleworx.android.twobuttonapp;
+ 
+import android.app.Activity;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.Toast;
+ 
+public class TwoButtonApp extends Activity {
+     
+ private static String logtag = "TwoButtonApp";//for use as the tag when logging
+   
+ /** Called when the activity is first created. */
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.main);
+         
+        Button buttonStart = (Button)findViewById(R.id.buttonStart);    	
+     buttonStart.setOnClickListener(startListener); // Register the onClick listener with the implementation above
+       
+     Button buttonStop = (Button)findViewById(R.id.buttonStop);    	
+     buttonStop.setOnClickListener(stopListener); // Register the onClick listener with the implementation above
+    }
+     
+    //Create an anonymous implementation of OnClickListener
+    private OnClickListener startListener = new OnClickListener() {
+        public void onClick(View v) {
+          Log.d(logtag,"onClick() called - start button");          	
+          Toast.makeText(TwoButtonApp.this, "The Start button was clicked.", Toast.LENGTH_LONG).show();
+          Log.d(logtag,"onClick() ended - start button");
+        }
+    };
+     
+    // Create an anonymous implementation of OnClickListener
+    private OnClickListener stopListener = new OnClickListener() {
+        public void onClick(View v) {
+         Log.d(logtag,"onClick() called - stop button");
+         Toast.makeText(TwoButtonApp.this, "The Stop button was clicked.", Toast.LENGTH_LONG).show();
+          Log.d(logtag,"onClick() ended - stop button");
+        }
+    };
+     
+     
+    @Override
+ protected void onStart() {//activity is started and visible to the user
+  Log.d(logtag,"onStart() called");
+  super.onStart(); 
+ }
+ @Override
+ protected void onResume() {//activity was resumed and is visible again
+  Log.d(logtag,"onResume() called");
+  super.onResume();
+   
+ }
+ @Override
+ protected void onPause() { //device goes to sleep or another activity appears
+  Log.d(logtag,"onPause() called");//another activity is currently running (or user has pressed Home)
+  super.onPause();
+   
+ }
+ @Override
+ protected void onStop() { //the activity is not visible anymore
+  Log.d(logtag,"onStop() called");
+  super.onStop();
+   
+ }
+ @Override
+ protected void onDestroy() {//android has killed this activity
+   Log.d(logtag,"onDestroy() called");
+   super.onDestroy();
+ }
+}
+@
+
+<<AndroidManifest.xml>>=
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+      package="com.idleworx.android.twobuttonapp"
+      android:versionCode="1"
+      android:versionName="1.0">
+    <uses-sdk android:minSdkVersion="8" />
+ 
+    <application android:icon="@drawable/icon" android:label="@string/app_name">
+        <activity android:name=".TwoButtonApp"
+                  android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+ 
+    </application>
+</manifest>
+@
+
 # built application files
 *.apk
 *.ap_
